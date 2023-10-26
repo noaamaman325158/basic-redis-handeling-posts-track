@@ -5,6 +5,10 @@ r = redis.Redis()
 
 r.set("fname", "Noaa")
 
-name_val = r.get("fname")
+name_bytes = r.get("fname")
 
-print(name_val)
+name = name_bytes.decode('utf-8')
+
+msg = f"My name is {name}"
+
+print(msg)
