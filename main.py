@@ -33,5 +33,22 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/all")
+def all_post():
+    post_ids = r.lrange("post_id", 0, -1)
+
+    posts = dict()
+
+    for post_id in post_ids:
+        name_bytes = r.get(f'news:name:{post_id.decode("utf-8")}')
+        name = name_bytes.decode('utf-8')
+
+        post_bytes = r.get(f'news:post:{post_id.decode("utf-8")}')
+        post_data = post_bytes.decode("utf-8")
+
+        posts[name] = post_data
+    return render_template("all.html", posts=posts)
+
+
 if __name__ == "__main__":
     app.run()
